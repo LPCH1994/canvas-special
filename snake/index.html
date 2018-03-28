@@ -339,7 +339,7 @@
             if (score_val == 4){
                 showScreen(4);
                 setTimeout(function() {
-                    window.location.href = "../photo-wall/index.html";
+                    window.location.href = "../photo-wall/frog.html";
                 }, 5000);
                 throw new Error();
 
@@ -571,7 +571,7 @@
             button_setting_menu.onclick = function(){showScreen(2);};
             button_setting_gameover.onclick = function(){showScreen(2)};
 
-            setSnakeSpeed(50);
+            setSnakeSpeed(20);
             setWall(1);
 
             showScreen("menu");

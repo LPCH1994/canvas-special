@@ -20,11 +20,12 @@
 	// 常量
 	//
 	var D = 222;				//泡泡直径
+    var Dm = 111;
 	var K = 0.999;
 
 	var POW_RATE = 0.0001;		//补偿概率
 	var POW_RANGE = 0.8;		//补偿范围(基于诞生速度)
-
+//todo speed
 	function SPEED_X(){return 8 + RND() * 4}
 	function SPEED_Y(){return 6 + RND() * 2}
 
@@ -66,9 +67,20 @@
 
 	Timer(update, 17);
 
-	CreateBubble = function()
+	CreateBubble = function(index)
 	{
-		var bub = new Bubble();
+        index = (typeof index !== 'undefined') ?  index : false;
+
+        if(index){
+            D = 111;
+            var bub = new Bubble(true);
+        }
+        else {
+            D = 222;
+            var bub = new Bubble();
+
+        }
+
 
 		bub.setX(0);
 		bub.setY(0);
@@ -226,9 +238,11 @@
 	/******************************
 	 * Class Bubble
 	 ******************************/
-	function Bubble()
+	function Bubble(mini)
 	{
-		var kOpa = [], kStp = [];
+        mini = (typeof mini !== 'undefined') ?  mini : false;
+
+        var kOpa = [], kStp = [];
 		var arrFlt = [];
 		var oBox = document.body.appendChild(document.createElement("div"));
 
@@ -238,41 +252,81 @@
 		styBox.width = D + "px";
 		styBox.height = D + "px";
 
-		for(var i=0; i<4; i++)
-		{
-			var div = document.createElement("div");
-			var sty = div.style;
+if (mini){
+    for(var i=0; i<4; i++)
+    {
+        var div = document.createElement("div");
+        var sty = div.style;
 
-			sty.position = "absolute";
-			sty.width = "222px";
-			sty.height = "222px";
+        sty.position = "absolute";
+        sty.width = "111px";
+        sty.height = "111px";
 
-			oBox.appendChild(div);
+        oBox.appendChild(div);
 
-			// 泡泡顶层
-			if(i == 3)
-			{
-				if(_IE6_)
-					sty.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src=heart.png)";
-				else
-					sty.backgroundImage = "url(heart.png)";
-				break;
-			}
+        // 泡泡顶层
+        if(i == 3)
+        {
+            if(_IE6_)
+                sty.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src=mheart.png)";
+            else
+                sty.backgroundImage = "url(mheart.png)";
+            break;
+        }
 
-			kOpa[i] = 3 * RND();
-			kStp[i] = 0.02 * RND();
+        kOpa[i] = 3 * RND();
+        kStp[i] = 0.02 * RND();
 
-			if(STD)
-			{
-				sty.backgroundImage = "url(ch" + i + ".png)";
-				arrFlt[i] = sty;
-			}
-			else
-			{
-				sty.filter = "alpha progid:DXImageTransform.Microsoft.AlphaImageLoader(src=ch" + i + ".png)";
-				arrFlt[i] = div.filters.alpha;
-			}
-		}
+        if(STD)
+        {
+            sty.backgroundImage = "url(mch" + i + ".png)";
+            arrFlt[i] = sty;
+        }
+        else
+        {
+            sty.filter = "alpha progid:DXImageTransform.Microsoft.AlphaImageLoader(src=mch" + i + ".png)";
+            arrFlt[i] = div.filters.alpha;
+        }
+    }
+}
+else {
+    for(var i=0; i<4; i++)
+    {
+        var div = document.createElement("div");
+        var sty = div.style;
+
+        sty.position = "absolute";
+        sty.width = "222px";
+        sty.height = "222px";
+
+        oBox.appendChild(div);
+
+        // 泡泡顶层
+        if(i == 3)
+        {
+            if(_IE6_)
+                sty.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src=heart.png)";
+            else
+                sty.backgroundImage = "url(heart.png)";
+            break;
+        }
+
+        kOpa[i] = 3 * RND();
+        kStp[i] = 0.02 * RND();
+
+        if(STD)
+        {
+            sty.backgroundImage = "url(ch" + i + ".png)";
+            arrFlt[i] = sty;
+        }
+        else
+        {
+            sty.filter = "alpha progid:DXImageTransform.Microsoft.AlphaImageLoader(src=ch" + i + ".png)";
+            arrFlt[i] = div.filters.alpha;
+        }
+    }
+}
+
 
 		this.styBox = styBox;
 		this.kOpa = kOpa;
